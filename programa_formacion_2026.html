@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programa de Formación y Desarrollo Profesional Interno 2026 · CHUC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Paleta institucional SCS: azul corporativo + dorado del escudo de Canarias */
+    --bg:#EEF1F6;
+    --surface:#FFFFFF;
+    --surface-2:#F4F7FA;
+    --navy:#0F2A52;      /* azul institucional oscuro (SCS) */
+    --navy-2:#1A3F72;    /* azul institucional medio */
+    --blue-mid:#2C5B96;
+    --blue-light:#D7E4F3;
+    --gold:#D9A441;      /* dorado del escudo de Canarias */
+    --gold-light:#F6E9CE;
+    --gold-dark:#9C6E22;
+    --text:#152238;
+    --text-muted:#5B6A80;
+    --border:#DCE4EF;
+    --border-soft:#E7EEF6;
+    --online-bg:#F6E9CE; --online-text:#8A5B12;
+    --mixto-bg:#E4E9F2; --mixto-text:#33456B;
+    --radius:14px;
+    --shadow: 0 1px 2px rgba(15,42,82,.06), 0 8px 24px -12px rgba(15,42,82,.14);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Space Grotesk',system-ui,sans-serif;
+    letter-spacing:-0.01em;
+  }
+  .mono{ font-family:'JetBrains Mono',monospace; }
+  a{color:inherit;}
+
+  /* ---------- HEADER ---------- */
+  header.top{
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 100%);
+    color:#EAF0FA;
+    padding: 28px clamp(16px,4vw,48px) 34px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.top::after{
+    content:"";
+    position:absolute; right:-10%; top:-40%;
+    width:520px; height:520px;
+    background: radial-gradient(circle, rgba(217,164,65,.18) 0%, rgba(217,164,65,0) 70%);
+    pointer-events:none;
+  }
+  .brandrow{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    flex-wrap:wrap;
+    position:relative; z-index:1;
+  }
+  .brand{
+    display:flex; align-items:center; gap:12px;
+  }
+  .logo-chip{
+    background:#fff;
+    border-radius:10px;
+    padding:9px 16px;
+    display:flex; align-items:center;
+    box-shadow: 0 2px 10px rgba(0,0,0,.18);
+    flex:none;
+  }
+  .logo-chip img{
+    height:38px; display:block;
+  }
+  .gob{
+    font-size:12px; color:#B7CCEA; text-align:right;
+    letter-spacing:.03em;
+  }
+  h1.title{
+    margin: 22px 0 6px;
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight:700;
+    position:relative; z-index:1;
+    max-width: 820px;
+  }
+  p.subtitle{
+    margin:0 0 10px;
+    color:#FFFFFF;
+    font-size: clamp(16px, 2vw, 19px);
+    font-weight:500;
+    max-width:700px;
+    position:relative; z-index:1;
+  }
+  p.lede{
+    margin:0; color:#C7D7EE; font-size:15px; max-width:640px; line-height:1.55;
+    position:relative; z-index:1;
+  }
+
+  /* ---------- DASHBOARD / STATS ---------- */
+  section.dashboard{
+    padding: 0 clamp(16px,4vw,48px);
+    margin-top:-20px;
+    position:relative; z-index:2;
+  }
+  .stat-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:14px;
+  }
+  @media (max-width: 900px){ .stat-grid{ grid-template-columns: repeat(2,1fr);} }
+  .stat-card{
+    background:var(--surface);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    border:1px solid var(--border-soft);
+    padding:18px 20px;
+    border-top: 3px solid var(--gold);
+  }
+  .stat-card .num{
+    font-family:'Space Grotesk'; font-weight:700; font-size:30px; color:var(--navy);
+    line-height:1;
+  }
+  .stat-card .label{
+    margin-top:6px; font-size:12.5px; color:var(--text-muted); font-weight:500;
+  }
+
+  .distro{
+    margin-top:16px;
+    background:var(--surface);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    border:1px solid var(--border-soft);
+    padding:18px 22px 20px;
+  }
+  .distro-head{
+    display:flex; align-items:baseline; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:6px;
+  }
+  .distro-head h2{ font-size:15px; margin:0; color:var(--navy); }
+  .distro-head span{ font-size:12px; color:var(--text-muted); }
+  .distro-bar{
+    display:flex; width:100%; height:14px; border-radius:8px; overflow:hidden;
+    background:var(--surface-2);
+  }
+  .distro-bar div{ height:100%; }
+  .distro-legend{
+    display:flex; flex-wrap:wrap; gap:10px 18px; margin-top:12px;
+  }
+  .distro-legend .item{
+    display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--text-muted);
+  }
+  .distro-legend .dot{ width:9px;height:9px;border-radius:3px; flex:none; }
+  .distro-legend b{ color:var(--text); font-weight:600; }
+
+  /* ---------- CONTROLS ---------- */
+  section.controls{
+    position:sticky; top:0; z-index:10;
+    background: rgba(238,241,246,.94);
+    backdrop-filter: blur(8px);
+    padding: 16px clamp(16px,4vw,48px) 12px;
+    margin-top: 22px;
+    border-bottom:1px solid var(--border);
+  }
+  .tabs{
+    display:flex; gap:8px; overflow-x:auto; padding-bottom:10px;
+    scrollbar-width:thin;
+  }
+  .tab{
+    flex:none;
+    padding:9px 16px;
+    border-radius:999px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    color:var(--text-muted);
+    font-size:13.5px; font-weight:600;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:.15s ease;
+    display:flex; align-items:center; gap:7px;
+  }
+  .tab .count{
+    background:var(--surface-2); color:var(--text-muted);
+    border-radius:999px; padding:1px 7px; font-size:11px; font-weight:600;
+  }
+  .tab:hover{ border-color:var(--blue-mid); color:var(--navy); }
+  .tab.active{
+    background:var(--navy); border-color:var(--navy); color:#fff;
+  }
+  .tab.active .count{ background:rgba(255,255,255,.2); color:#fff; }
+
+  .search-row{
+    display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; align-items:center;
+  }
+  .search-box{
+    flex:1 1 260px;
+    display:flex; align-items:center; gap:8px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:9px 14px;
+  }
+  .search-box input{
+    border:none; outline:none; background:transparent; width:100%;
+    font-family:'Inter'; font-size:14px; color:var(--text);
+  }
+  .search-box svg{ flex:none; color:var(--text-muted); }
+  select.modfilter{
+    border:1px solid var(--border); border-radius:10px; background:var(--surface);
+    padding:9px 12px; font-family:'Inter'; font-size:13.5px; color:var(--text); cursor:pointer;
+  }
+  .acc-toggle-all{
+    border:1px solid var(--border); border-radius:10px; background:var(--surface);
+    padding:9px 14px; font-family:'Inter'; font-size:13px; font-weight:600; color:var(--navy-2);
+    cursor:pointer; white-space:nowrap;
+  }
+  .acc-toggle-all:hover{ border-color:var(--blue-mid); }
+
+  /* ---------- GRID / ACCORDION ---------- */
+  main{
+    padding: 22px clamp(16px,4vw,48px) 60px;
+  }
+
+  .accordion-item{
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:var(--radius);
+    margin-bottom:14px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .accordion-head{
+    width:100%;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px;
+    padding:16px 20px;
+    background:var(--surface);
+    border:none;
+    cursor:pointer;
+    text-align:left;
+    border-left: 5px solid var(--dircolor, var(--navy-2));
+  }
+  .accordion-head:hover{ background:var(--surface-2); }
+  .accordion-head .left{
+    display:flex; align-items:center; gap:12px;
+  }
+  .accordion-head h2{
+    margin:0; font-size:17px; color:var(--navy);
+  }
+  .accordion-head .n{
+    font-size:12.5px; color:var(--text-muted); font-weight:500;
+    background:var(--surface-2); padding:3px 10px; border-radius:999px;
+    border:1px solid var(--border);
+  }
+  .chevron{
+    flex:none; transition: transform .2s ease; color:var(--text-muted);
+  }
+  .accordion-item.open .chevron{ transform: rotate(180deg); }
+
+  .accordion-body{
+    max-height:0;
+    overflow:hidden;
+    transition: max-height .28s ease;
+  }
+  .accordion-body-inner{
+    padding: 4px 20px 20px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap:14px;
+  }
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:12px;
+    padding:16px 18px 14px;
+    display:flex; flex-direction:column; gap:10px;
+    border-left: 3px solid var(--dircolor, var(--blue-mid));
+    transition: transform .12s ease, box-shadow .12s ease;
+    background:var(--surface-2);
+  }
+  .card:hover{ transform: translateY(-2px); box-shadow: 0 4px 10px rgba(15,42,82,.08), 0 14px 30px -14px rgba(15,42,82,.2); }
+  .card .code{
+    font-size:11px; color:var(--text-muted); letter-spacing:.03em;
+  }
+  .card h3{
+    margin:0; font-size:15px; line-height:1.35; font-weight:600; color:var(--text);
+    font-family:'Inter';
+  }
+  .card .meta{
+    display:flex; flex-wrap:wrap; gap:7px; margin-top:auto; padding-top:4px;
+  }
+  .pill{
+    font-size:11.5px; font-weight:600; padding:4px 9px; border-radius:999px;
+    display:flex; align-items:center; gap:5px;
+  }
+  .pill.horas{ background:#fff; color:var(--navy-2); border:1px solid var(--border);}
+  .pill.plazas{ background:#fff; color:var(--navy-2); border:1px solid var(--border);}
+  .pill.mod-presencial{ background:var(--blue-light); color:var(--navy-2); }
+  .pill.mod-online{ background:var(--online-bg); color:var(--online-text); }
+  .pill.mod-mixto{ background:var(--mixto-bg); color:var(--mixto-text); }
+
+  .empty{
+    text-align:center; padding:60px 20px; color:var(--text-muted);
+  }
+  .empty b{ display:block; color:var(--navy); font-size:16px; margin-bottom:6px; }
+
+  footer{
+    padding: 26px clamp(16px,4vw,48px) 40px;
+    border-top:1px solid var(--border);
+    color:var(--text-muted); font-size:12.5px; line-height:1.7;
+  }
+  footer .crit{
+    max-width:900px;
+  }
+  footer .crit h4{
+    margin:0 0 6px; color:var(--navy); font-size:13px; font-family:'Space Grotesk';
+  }
+  footer ol{ margin:6px 0 0; padding-left:18px; }
+
+  ::-webkit-scrollbar{ height:8px; width:8px; }
+  ::-webkit-scrollbar-thumb{ background:#C3D2E8; border-radius:8px; }
+
+  @media (max-width:600px){
+    .stat-grid{ grid-template-columns:1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brandrow">
+    <div class="brand">
+      <div class="logo-chip">
+        <img src="data:image/png;base64,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" alt="Servicio Canario de la Salud · Complejo Hospitalario Universitario de Canarias">
+      </div>
+    </div>
+    <div class="gob">Gobierno de Canarias<br>Dirección de Recursos Humanos</div>
+  </div>
+  <h1 class="title">Programa de Formación y Desarrollo Profesional Interno · 2026</h1>
+  <p class="subtitle">Actividades Formativas gestionadas por el Servicio de Selección, Evaluación y Formación</p>
+  <p class="lede">Catálogo interactivo de las actividades formativas propuestas por las distintas direcciones, servicios y unidades del CHUC, aprobadas por el Consejo Directivo.</p>
+</header>
+
+<section class="dashboard">
+  <div class="stat-grid" id="statGrid"></div>
+  <div class="distro">
+    <div class="distro-head">
+      <h2>Distribución de cursos por dirección</h2>
+      <span id="distroTotal"></span>
+    </div>
+    <div class="distro-bar" id="distroBar"></div>
+    <div class="distro-legend" id="distroLegend"></div>
+  </div>
+</section>
+
+<section class="controls">
+  <div class="tabs" id="tabs"></div>
+  <div class="search-row">
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="searchInput" type="text" placeholder="Buscar por título o código (p. ej. «ecografía», «MED26031»)…" />
+    </div>
+    <select class="modfilter" id="modFilter">
+      <option value="">Todas las modalidades</option>
+      <option value="Presencial">Presencial</option>
+      <option value="Online">Online</option>
+      <option value="Mixto">Mixto</option>
+    </select>
+    <button class="acc-toggle-all" id="toggleAllBtn">Colapsar todas</button>
+  </div>
+</section>
+
+<main id="main"></main>
+
+<footer>
+  <div class="crit">
+    <h4>Criterios de selección</h4>
+    <p>Por regla general, los criterios preferentes para la selección de los admitidos de entre las solicitudes presentadas a cada actividad formativa son:</p>
+    <ol>
+      <li>No haber asistido a la misma actividad formativa en ediciones anteriores.</li>
+      <li>Que los contenidos de la actividad formativa tengan relación directa con las funciones desempeñadas por el trabajador/a en su puesto actual.</li>
+      <li>Ser personal fijo de este Complejo Hospitalario Universitario de Canarias (ordenándose por antigüedad).</li>
+      <li>Si las plazas no se cubriesen con personal fijo se atenderán las solicitudes presentadas por el personal temporal que cumplan con los puntos 1 y 2 anteriores, ordenándose atendiendo al puesto que ocupen en las listas de reserva y/o contratación temporal.</li>
+    </ol>
+    <p style="margin-top:14px;">La Formación y Desarrollo Profesional Interno se gestiona por la Dirección de Recursos Humanos (áreas de gerencia, médica, gestión y RRHH) y por la Dirección de Enfermería (exclusivamente área de enfermería).</p>
+  </div>
+</footer>
+
+<script id="courseData" type="application/json">[{"dir": "GER", "dirName": "Dirección Gerencia", "code": "GER26001", "title": "Atención centrada en la persona: Avances en humanización en el SCS", "horas": 1.5, "plazas": 60, "modalidad": "Presencial"}, {"dir": "GER", "dirName": "Dirección Gerencia", "code": "GER26002", "title": "Atención centrada en la persona, para residentes: Avances en Humanización en el SCS", "horas": 1.5, "plazas": 60, "modalidad": "Presencial"}, {"dir": "GER", "dirName": "Dirección Gerencia", "code": "GER26003", "title": "Control documental en la norma ISO 9001:2015", "horas": 2, "plazas": 60, "modalidad": "Presencial"}, {"dir": "GER", "dirName": "Dirección Gerencia", "code": "GER26004", "title": "Día mundial de seguridad del paciente", "horas": 4, "plazas": 60, "modalidad": "Presencial"}, {"dir": "GER", "dirName": "Dirección Gerencia", "code": "GER26005", "title": "Introducción al sistema de gestión de calidad", "horas": 2, "plazas": 35, "modalidad": "Presencial"}, {"dir": "GER", "dirName": "Dirección Gerencia", "code": "GER26006", "title": "Novedades en la ISO 9001", "horas": 2, "plazas": 60, "modalidad": "Presencial"}, {"dir": "GER", "dirName": "Dirección Gerencia", "code": "GER26007", "title": "Fundamentos básicos en seguridad del paciente para profesionales sanitarios del CHUC", "horas": 2, "plazas": 60, "modalidad": "Presencial"}, {"dir": "GER", "dirName": "Dirección Gerencia", "code": "GER26008", "title": "XVI Jornada de calidad y seguridad del HUC", "horas": 6, "plazas": 150, "modalidad": "Presencial"}, {"dir": "GER", "dirName": "Dirección Gerencia", "code": "GER26009", "title": "Conceptos básicos sanitarios en lengua de signos española", "horas": 20, "plazas": 16, "modalidad": "Presencial"}, {"dir": "GER", "dirName": "Dirección Gerencia", "code": "GER26010", "title": "Lengua de signos española 360º: Reactiva tus signos", "horas": 20, "plazas": 20, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26001", "title": "VI Actualización en radiología pediátrica. Consensos, controversias, innovación y aprendizaje basado en la práctica habitual", "horas": 8, "plazas": 150, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26002", "title": "Anatomía quirúrgica y disección del hueso temporal, ORL CHUC 2026", "horas": 30, "plazas": 4, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26003", "title": "Simulación en cuidados intensivos pediátricos y neonatales", "horas": 8, "plazas": 20, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26004", "title": "Uso básico de analizadores POCT GEM 4000", "horas": 1, "plazas": 15, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26005", "title": "Trastornos destructivos del control de los impulsos y de la conducta (Teórico-práctico)", "horas": 8, "plazas": 30, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26006", "title": "Anatomía quirúrgica y disección del hueso temporal, ORL CHUC 2026", "horas": 30, "plazas": 4, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26007", "title": "Simulación clínica para soporte vital inmediato en planta de hospitalización 2026", "horas": 10, "plazas": 12, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26008", "title": "Simulación clínica para soporte vital inmediato en sala de radiodiagnóstico 2026", "horas": 10, "plazas": 12, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26009", "title": "I Jornada canaria de actualización en gastroenterología y hepatología", "horas": 8, "plazas": 50, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26010", "title": "I Curso síndrome cardiorenal Hospital Universitario de Canarias", "horas": 12, "plazas": 25, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26011", "title": "Seminario de introducción al marco de poder, amenaza y significado", "horas": 10, "plazas": 30, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26012", "title": "Trastornos destructivos del control de los impulsos y de la conducta (Teórico-práctico)", "horas": 8, "plazas": 30, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26013", "title": "Diagnóstico y tratamiento de la infección fúngica invasiva (IFI)", "horas": 4, "plazas": 50, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26014", "title": "Aplicaciones clínicas de los elementos traza en el laboratorio clínico", "horas": 2, "plazas": 40, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26015", "title": "Enfermedad de Wilson y determinación de cobre: Abordaje clínico y aplicación analítica en el laboratorio", "horas": 2, "plazas": 40, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26016", "title": "Conociendo el laboratorio central", "horas": 3.5, "plazas": 20, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26017", "title": "Elementos traza y nutrición: Metabolismo, diagnóstico y aplicaciones clínicas", "horas": 2, "plazas": 40, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26018", "title": "Elementos traza en el laboratorio clínico: Fundamentos, fisiología y aplicación", "horas": 2, "plazas": 40, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26019", "title": "Sostenibilidad y liderazgo: Del compromiso individual al cambio colectivo", "horas": 2, "plazas": 50, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26020", "title": "Sostenibilidad en el laboratorio clínico: Hacia una cultura verde en el CHUC", "horas": 2, "plazas": 50, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26021", "title": "Ecografía básica en la valoración del paciente crítico y perioperatorio", "horas": 4, "plazas": 25, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26022", "title": "Seguridad clínica en cuidados postoperatorios", "horas": 14, "plazas": 24, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26023", "title": "Seguridad clínica en el bloque quirúrgico", "horas": 14, "plazas": 24, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26024", "title": "Habilidades no técnicas y seguridad del paciente en el hospital de día (simulación clínica)", "horas": 4, "plazas": 32, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26025", "title": "Higiene de manos en la atención sanitaria como pilar en la prevención de infecciones relacionadas con la asistencia sanitaria 2026", "horas": 12, "plazas": 25, "modalidad": "Mixto"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26026", "title": "Prevención de las infecciones relacionadas con la asistencia sanitaria (básico)", "horas": 5, "plazas": 60, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26027", "title": "Inmunizaciones preferentes en el ámbito hospitalario (básico)", "horas": 2, "plazas": 30, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26028", "title": "Gestión de solicitudes de mesa de transporte", "horas": 4, "plazas": 6, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26029", "title": "Taller gestión administrativa de pacientes en urgencias y hospitalización del CHUC", "horas": 20, "plazas": 7, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26030", "title": "Taller gestión administrativa en el servicio de admisión central y documentación clínica", "horas": 20, "plazas": 7, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26031", "title": "II Jornadas de innovación sanitaria del CHUC", "horas": 8, "plazas": 150, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26032", "title": "Programa de formación en experiencia del paciente y gestión sanitaria basada en valor", "horas": 8, "plazas": 20, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26033", "title": "Deprescripción de inhibidores de la bomba de protones (IBP) 2026", "horas": 25, "plazas": 40, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26034", "title": "Actualización de farmacología y terapéutica en el anciano 2026", "horas": 15, "plazas": 40, "modalidad": "Mixto"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26035", "title": "Buenas prácticas clínicas para investigadores 2026", "horas": 15, "plazas": 40, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26036", "title": "Capacitación para directores de instalaciones de rayos X con fines de diagnóstico médico", "horas": 30, "plazas": 24, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26037", "title": "Jornada de formación en protección radiológica para personal expuesto en la instalación radiactiva (facultativos), área de radioterapia", "horas": 2, "plazas": 20, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26038", "title": "Jornada de formación en protección radiológica para personal expuesto en la instalación radiactiva (facultativos), área de medicina nuclear", "horas": 2, "plazas": 20, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26039", "title": "Protección radiológica (2º nivel) para radiología intervencionista", "horas": 25, "plazas": 12, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26040", "title": "Actualización en patología infecciosa 2026: Infección intraabdominal", "horas": 4.5, "plazas": 60, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26041", "title": "Investigar con impacto: De la idea a la publicación en digestivo", "horas": 3, "plazas": 40, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26042", "title": "Presentar con impacto: Taller de comunicación científica para digestivo", "horas": 3, "plazas": 40, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26043", "title": "Taller simulación obstetricia", "horas": 10, "plazas": 50, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26044", "title": "V Jornada de tutores de formación sanitaria especializada del CHUC", "horas": 5, "plazas": 50, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26045", "title": "Nuevos materiales para el tratamiento infrapoplíteo", "horas": 1, "plazas": 10, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26046", "title": "Nuevos enfoques en la recanalización ultradistal (Teórico-práctico)", "horas": 4, "plazas": 10, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26047", "title": "Simulación de despliegue de endoprótesis Nexus (Endospan)", "horas": 2, "plazas": 10, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26048", "title": "Manejo del drenaje torácico. Teórico-práctico 2026", "horas": 12, "plazas": 20, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26049", "title": "Fortaleciendo la comunicación con las familias", "horas": 4.5, "plazas": 35, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26050", "title": "Introducción a la ecografía cardiaca en pediatría 2026", "horas": 12.5, "plazas": 8, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26051", "title": "Aprendizaje de técnicas quirúrgicas básicas de enclavado elástico intramedular (TENS) (Teórico-práctico)", "horas": 4, "plazas": 30, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26052", "title": "Dermatología para todos: La importancia de la piel en medicina", "horas": 4, "plazas": 150, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26053", "title": "Patient Blood Management (PBM) para atención primaria", "horas": 10, "plazas": 100, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26054", "title": "Metodología Lean. Certificado Lean Yellow Belt Practitioner", "horas": 20, "plazas": 20, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26055", "title": "Soporte vital avanzado 2026", "horas": 20, "plazas": 15, "modalidad": "Mixto"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26056", "title": "Simulación clínica avanzada en situaciones urgentes en unidades especiales", "horas": 15, "plazas": 10, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26057", "title": "Simulación clínica avanzada en urgencias", "horas": 5, "plazas": 10, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26058", "title": "Simulación clínica avanzada en shock cardiogénico", "horas": 5, "plazas": 10, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26059", "title": "Traumatología de urgencias 2026", "horas": 20, "plazas": 15, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26060", "title": "RCP Avanzada", "horas": 16, "plazas": 20, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26061", "title": "Ecografía del acceso vascular para hemodiálisis", "horas": 12, "plazas": 30, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26062", "title": "Escuela de pacientes de dermatitis atópica", "horas": 2, "plazas": 60, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26063", "title": "Soporte vital básico: Atención inicial a la parada cardiorrespiratoria del paciente psiquiátrico", "horas": 9, "plazas": 45, "modalidad": "Presencial"}, {"dir": "MED", "dirName": "Dirección Médica", "code": "MED26064", "title": "Cuidados al final de la vida para personal de la unidad de cuidados intensivos pediátricos 2026", "horas": 4, "plazas": 60, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26001", "title": "Tratamiento con fármacos antivitamina K", "horas": 2, "plazas": 30, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26002", "title": "Reanimación cardiopulmonar avanzada pediátrica y neonatal", "horas": 20, "plazas": 20, "modalidad": "Mixto"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26003", "title": "Herramientas de persuasión estratégica y oratoria práctica: Una aproximación al liderazgo sanitario", "horas": 2, "plazas": 25, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26004", "title": "Anatomía quirúrgica y disección cervical, ORL CHUC 2026", "horas": 18, "plazas": 2, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26005", "title": "III curso de ginecología y obstetricia para residentes", "horas": 12, "plazas": 45, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26006", "title": "Introducción del residente de FSE en docencia de la intranet", "horas": 1.5, "plazas": 40, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26007", "title": "Introducción a la patología cardiológica aguda de urgencias para R1", "horas": 9, "plazas": 40, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26008", "title": "Atención a las complicaciones urgentes en enfermedades avanzadas", "horas": 12, "plazas": 50, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26009", "title": "Accesos vasculares ecoguiados", "horas": 4, "plazas": 20, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26010", "title": "VI jornada de orientación profesional post residencia", "horas": 4, "plazas": 75, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26011", "title": "Taller de reanimación cardiopulmonar para residentes", "horas": 4.5, "plazas": 30, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26012", "title": "Seminario sobre aspectos jurídicos básicos de la relación médico-paciente", "horas": 10, "plazas": 35, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26013", "title": "Lectura crítica de artículos. Medicina basada en la evidencia. Búsquedas bibliográficas", "horas": 12, "plazas": 20, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26014", "title": "Actualización de la formación en protección radiológica para residentes (2º, 3º, 4º y 5º año)", "horas": 2, "plazas": 20, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26015", "title": "Uso racional del medicamento en la formación de médicos internos residentes", "horas": 12, "plazas": 100, "modalidad": "Online"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26016", "title": "Seminario/taller de habilidades de comunicación en la práctica clínica", "horas": 10, "plazas": 25, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26017", "title": "Calidad y seguridad para residentes", "horas": 10, "plazas": 30, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26018", "title": "Legislación y derecho sanitario. Secreto profesional. Ley de eutanasia", "horas": 10, "plazas": 35, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26019", "title": "Prestación farmacéutica en el Sistema Nacional de Salud. Visado de recetas", "horas": 12, "plazas": 100, "modalidad": "Online"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26020", "title": "Elaboración de un proyecto de investigación y estadística básica", "horas": 20, "plazas": 30, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26021", "title": "Gestión clínica para residentes", "horas": 10, "plazas": 45, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26022", "title": "Básico de investigación", "horas": 30, "plazas": 40, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26023", "title": "Bioética para residentes", "horas": 20, "plazas": 30, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26024", "title": "XXV curso básico de urgencias generales y psiquiátricas para residentes de primer año", "horas": 8, "plazas": 95, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26025", "title": "Elaboración de historia clínica, SAP e interpretación de estudios diagnósticos en el entorno hospitalario", "horas": 15, "plazas": 95, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26026", "title": "Recepción y orientación de médicos residentes 2026", "horas": 8, "plazas": 95, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26027", "title": "Formación de residentes en protección radiológica (nivel básico)", "horas": 6, "plazas": 95, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26028", "title": "Acogida de R1: Manejo de paciente DM hospitalizado", "horas": 2, "plazas": 95, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26029", "title": "Seminario sobre seguridad en la administración del tratamiento y las órdenes médicas (Farmatools)", "horas": 2, "plazas": 20, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26030", "title": "Colocación y retirada de los EPI", "horas": 1.5, "plazas": 30, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26031", "title": "Patología vascular en urgencias", "horas": 2, "plazas": 30, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26032", "title": "Taller de simulación en técnicas y material de sutura", "horas": 3, "plazas": 9, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26033", "title": "Gestión de cuidados enfermeros en el sistema de información SAP", "horas": 3, "plazas": 12, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26034", "title": "IV curso procesos administrativos del servicio de urgencias", "horas": 3, "plazas": 40, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26035", "title": "Taller de higiene de manos para residentes", "horas": 1.5, "plazas": 30, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26036", "title": "Seminario sobre prescripción electrónica intrahospitalaria (Farmatools)", "horas": 2, "plazas": 80, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26037", "title": "Taller práctico de patología infecciosa y PROA (Programa de Optimización del Tratamiento Antimicrobiano) en el CHUC", "horas": 8, "plazas": 95, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26038", "title": "Taller de simulación virtual en laparoscopia abdominal para cirugía general", "horas": 6, "plazas": 10, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26039", "title": "Simulación clínica en manejo de arritmias agudas", "horas": 4, "plazas": 8, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26040", "title": "Taller de simulación virtual de ecografía obstétrica y ginecológica", "horas": 8, "plazas": 8, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26041", "title": "Taller de simulación virtual en laparoscopia abdomino-pélvica para R1 (laparoscopia básica)", "horas": 8, "plazas": 10, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26042", "title": "Taller de simulación virtual de introducción a la artroscopia", "horas": 6, "plazas": 10, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26043", "title": "Simulación clínica para residentes de primer año", "horas": 4, "plazas": 12, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26044", "title": "Taller de simulación virtual de introducción a la ecocardiografía", "horas": 9, "plazas": 8, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26045", "title": "Taller de simulación virtual de introducción básica a la ecografía", "horas": 8, "plazas": 10, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26046", "title": "Taller de simulación virtual de introducción a la ecografía torácica", "horas": 8, "plazas": 10, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26047", "title": "Taller de simulación virtual de introducción a las técnicas endovasculares guiadas por fluoroscopia", "horas": 5, "plazas": 10, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26048", "title": "Taller de simulación virtual en laparoscopia pélvica para urología", "horas": 6, "plazas": 6, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26049", "title": "Taller de simulación virtual de broncoscopia en vía aérea", "horas": 6, "plazas": 10, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26050", "title": "Taller de simulación virtual de laparoscopia pélvica para obstetricia y ginecología", "horas": 8, "plazas": 10, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26051", "title": "Básico de técnicas de inmovilización, yesos y vendajes en cirugía ortopédica y traumatología", "horas": 8, "plazas": 30, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26052", "title": "Optimización de tratamientos farmacológicos para R1", "horas": 1, "plazas": 95, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26053", "title": "Ecografía básica para residentes. La ecografía aplicada a la práctica clínica", "horas": 12, "plazas": 15, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26054", "title": "Traumatología de urgencias para rotantes COT", "horas": 20, "plazas": 15, "modalidad": "Presencial"}, {"dir": "RES", "dirName": "Dirección Médica (Residentes)", "code": "RES26055", "title": "Manejo de crisis en anestesiología y reanimación para residentes (febrero 2026)", "horas": 4, "plazas": 13, "modalidad": "Presencial"}, {"dir": "PGRE", "dirName": "Dirección de Planificación y Gestión de Recursos Económicos", "code": "PGRE2601", "title": "Obtención de título de manipulación de carretillas elevadoras", "horas": 10, "plazas": 15, "modalidad": "Presencial"}, {"dir": "PGRE", "dirName": "Dirección de Planificación y Gestión de Recursos Económicos", "code": "PGRE2602", "title": "Selección del adjudicatario y ejecución del contrato: Doctrina del Tribunal Administrativo de Contratos Públicos", "horas": 10, "plazas": 20, "modalidad": "Presencial"}, {"dir": "PGRE", "dirName": "Dirección de Planificación y Gestión de Recursos Económicos", "code": "PGRE2603", "title": "Manejo práctico del PLACE (Plataforma de Contratación del Estado)", "horas": 4, "plazas": 20, "modalidad": "Presencial"}, {"dir": "PGRE", "dirName": "Dirección de Planificación y Gestión de Recursos Económicos", "code": "PGRE2604", "title": "Técnicas de humanización", "horas": 1.5, "plazas": 15, "modalidad": "Presencial"}, {"dir": "PGRE", "dirName": "Dirección de Planificación y Gestión de Recursos Económicos", "code": "PGRE2605", "title": "Actualización de las herramientas y procedimientos administrativos en SAP", "horas": 1.5, "plazas": 15, "modalidad": "Presencial"}, {"dir": "IIT", "dirName": "Dirección de Ingeniería, Infraestructuras y Tecnologías", "code": "IIT26001", "title": "Programa de software de mediciones, presupuestos y certificaciones Arquímedes", "horas": 15, "plazas": 10, "modalidad": "Presencial"}, {"dir": "IIT", "dirName": "Dirección de Ingeniería, Infraestructuras y Tecnologías", "code": "IIT26002", "title": "Accesibilidad universal y diseño para todas las personas en espacios urbanos y edificaciones", "horas": 25, "plazas": 10, "modalidad": "Presencial"}, {"dir": "IIT", "dirName": "Dirección de Ingeniería, Infraestructuras y Tecnologías", "code": "IIT26003", "title": "Formación para la operación segura de plataformas elevadoras", "horas": 6, "plazas": 10, "modalidad": "Presencial"}, {"dir": "IIT", "dirName": "Dirección de Ingeniería, Infraestructuras y Tecnologías", "code": "IIT26004", "title": "Trabajos en altura", "horas": 6, "plazas": 10, "modalidad": "Presencial"}, {"dir": "IIT", "dirName": "Dirección de Ingeniería, Infraestructuras y Tecnologías", "code": "IIT26005", "title": "Seguridad y salud en proyecto y licitaciones", "horas": 10, "plazas": 10, "modalidad": "Presencial"}, {"dir": "IIT", "dirName": "Dirección de Ingeniería, Infraestructuras y Tecnologías", "code": "IIT26006", "title": "Actuación ante incidentes de riesgo de contaminación biológica para personal técnico de mantenimiento", "horas": 4, "plazas": 6, "modalidad": "Presencial"}, {"dir": "IIT", "dirName": "Dirección de Ingeniería, Infraestructuras y Tecnologías", "code": "IIT26007", "title": "Formación técnica cicloergómetro reclinable y la estación de trabajo ECG Stress", "horas": 4, "plazas": 3, "modalidad": "Presencial"}, {"dir": "IIT", "dirName": "Dirección de Ingeniería, Infraestructuras y Tecnologías", "code": "IIT26008", "title": "Protección radiológica para personal de ingeniería biomédica", "horas": 4, "plazas": 6, "modalidad": "Presencial"}, {"dir": "IIT", "dirName": "Dirección de Ingeniería, Infraestructuras y Tecnologías", "code": "IIT26009", "title": "Formación técnica equipos de rayos X GEH Digital Discovery XR656", "horas": 10, "plazas": 6, "modalidad": "Presencial"}, {"dir": "IIT", "dirName": "Dirección de Ingeniería, Infraestructuras y Tecnologías", "code": "IIT26010", "title": "Formación técnica respiradores Hamilton C6", "horas": 6, "plazas": 3, "modalidad": "Presencial"}, {"dir": "IIT", "dirName": "Dirección de Ingeniería, Infraestructuras y Tecnologías", "code": "IIT26011", "title": "Huella de carbono en el sector sanitario", "horas": 6, "plazas": 20, "modalidad": "Presencial"}, {"dir": "IIT", "dirName": "Dirección de Ingeniería, Infraestructuras y Tecnologías", "code": "IIT26012", "title": "Utilización de equipos simuladores de constantes vitales", "horas": 10, "plazas": 6, "modalidad": "Presencial"}, {"dir": "IIT", "dirName": "Dirección de Ingeniería, Infraestructuras y Tecnologías", "code": "IIT26013", "title": "Realización de test de seguridad eléctrica sobre equipos electromédicos", "horas": 10, "plazas": 6, "modalidad": "Presencial"}, {"dir": "IIT", "dirName": "Dirección de Ingeniería, Infraestructuras y Tecnologías", "code": "IIT26014", "title": "Esterilizadores de vapor Steelco", "horas": 2, "plazas": 12, "modalidad": "Presencial"}, {"dir": "IIT", "dirName": "Dirección de Ingeniería, Infraestructuras y Tecnologías", "code": "IIT26015", "title": "Formación técnica de equipamiento electromédico de la marca Dräger", "horas": 9, "plazas": 5, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2601", "title": "Normas a seguir para el buen funcionamiento de trenes de lavado y lavavajillas", "horas": 1, "plazas": 25, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2602", "title": "Cómo elaborar un potaje", "horas": 1, "plazas": 10, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2603", "title": "Normas de evacuación y emergencias. Coordinador sanitario de emergencias (Subdirectores Médicos y Supervisores de Guardia)", "horas": 1, "plazas": 70, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2604", "title": "Elaboraciones con el horno Rational i-Combi", "horas": 1, "plazas": 10, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2605", "title": "Funcionamiento y porcionado en el cuarto frío", "horas": 1, "plazas": 10, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2606", "title": "Jefe de emergencia (jefe de día y jefe de noche): Actuaciones y procedimientos a seguir en caso de emergencia", "horas": 1, "plazas": 50, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2607", "title": "Formación práctica en el manejo de equipos de extinción (HUC)", "horas": 2, "plazas": 25, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2608", "title": "Normas de evacuación y emergencias. Responsables de Servicios/Unidades de Enfermería", "horas": 1, "plazas": 70, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2609", "title": "Actualización y reciclaje: Normas y procedimientos de trabajo de celadores/ordenanzas de oficina", "horas": 1, "plazas": 10, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2610", "title": "Actualización y reciclaje: Normas y procedimientos de trabajo de celadores/ordenanzas de puerta", "horas": 1, "plazas": 10, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2611", "title": "Actualización y reciclaje: Normas y procedimientos de trabajo de telefonistas", "horas": 1, "plazas": 10, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2612", "title": "Normas y procedimientos de actuación para el personal del parque móvil", "horas": 1, "plazas": 10, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2613", "title": "Actualización y reciclaje: Normas y procedimientos de limpieza de mobiliario", "horas": 1, "plazas": 20, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2614", "title": "Actualización y reciclaje: Normas y procedimientos de limpieza del edificio de actividades ambulatorias y consultas externas", "horas": 1, "plazas": 10, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2615", "title": "Actualización y reciclaje: Normas y procedimientos de limpieza de hospitalización", "horas": 1, "plazas": 20, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2616", "title": "Actualización y reciclaje: Normas y procedimientos de limpieza en el área quirúrgica", "horas": 1, "plazas": 20, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2617", "title": "Actualización y reciclaje: Normas y procedimientos de limpieza de servicios especiales", "horas": 1, "plazas": 10, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2618", "title": "Actualización y reciclaje: Normas y procedimientos de limpieza de zonas exteriores", "horas": 1, "plazas": 20, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2619", "title": "¿Qué hacer en caso de emergencias? Edificio de Actividades Ambulatorias (EAA)", "horas": 1, "plazas": 70, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2620", "title": "¿Qué hacer en caso de emergencias? Edificio de Hospitalización", "horas": 1, "plazas": 70, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2621", "title": "¿Qué hacer en caso de emergencias? Edificio NEA", "horas": 1, "plazas": 70, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2622", "title": "Actualización y reciclaje: Normas y procedimientos de recepción y entrega de mercancías", "horas": 1, "plazas": 10, "modalidad": "Presencial"}, {"dir": "SSGG", "dirName": "Dirección de Servicios Generales", "code": "SSGG2623", "title": "Reciclaje en dietas vegetarianas", "horas": 1, "plazas": 10, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2601", "title": "Convocatorias urgentes de listas de empleo supletorias (SUPLE), procedimientos y aspectos técnicos", "horas": 2, "plazas": 20, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2602", "title": "Automatización masiva de gestión de archivos (MD, REN, BATCH, .BAT y CMD)", "horas": 2, "plazas": 15, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2603", "title": "FLOR Básico – Supervisores de Unidad o Área de FLOR", "horas": 6, "plazas": 12, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2604", "title": "Expurgo de documentación", "horas": 10, "plazas": 20, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2605", "title": "Inteligencia artificial aplicada a la gestión de RRHH", "horas": 15, "plazas": 50, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2606", "title": "Riesgo biológico. Actuación ante cortes, pinchazos y salpicaduras", "horas": 2, "plazas": 20, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2607", "title": "Riesgos en embarazo y lactancia en el ámbito sanitario", "horas": 2, "plazas": 20, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2608", "title": "Actualización en elaboración de partes de notificación de accidente, incidente y situación de riesgo vía SAP", "horas": 2, "plazas": 20, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2609", "title": "Mediación en la gestión de conflictos para mandos hospitalarios", "horas": 2, "plazas": 20, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2610", "title": "Riesgos y medidas preventivas en el manejo manual de cargas para personal de la Dirección de Ingeniería, Infraestructura y Tecnología", "horas": 2, "plazas": 40, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2611", "title": "Primeros auxilios básicos", "horas": 3, "plazas": 20, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2612", "title": "Factores organizacionales y presentación de la evaluación de riesgos psicosociales en urgencias", "horas": 1, "plazas": 20, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2613", "title": "Factores organizacionales en almacén central", "horas": 1, "plazas": 20, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2614", "title": "Habilidades en gestión de mando", "horas": 3, "plazas": 30, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2615", "title": "Actuaciones preventivas ante los accidentes in itínere y en misión", "horas": 2, "plazas": 40, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2616", "title": "Riesgos y medidas preventivas para el personal de limpieza", "horas": 2, "plazas": 40, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2617", "title": "Procedimiento de acoso laboral y su aplicación", "horas": 3, "plazas": 40, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2618", "title": "Riesgos específicos del personal de urgencias, medidas de emergencia", "horas": 3, "plazas": 40, "modalidad": "Presencial"}, {"dir": "RRHH", "dirName": "Dirección de Recursos Humanos", "code": "RRHH2619", "title": "Riesgos y medidas preventivas para la realización de trabajos en altura", "horas": 3, "plazas": 20, "modalidad": "Presencial"}]</script>
+<script>
+const courses = JSON.parse(document.getElementById('courseData').textContent);
+
+const DIR_ORDER = ["GER","MED","RES","PGRE","IIT","SSGG","RRHH"];
+const DIR_LABELS = {
+  GER:"Dirección Gerencia",
+  MED:"Dirección Médica",
+  RES:"Dirección Médica (Residentes)",
+  PGRE:"Planificación y Gestión de Recursos Económicos",
+  IIT:"Ingeniería, Infraestructuras y Tecnologías",
+  SSGG:"Servicios Generales",
+  RRHH:"Recursos Humanos"
+};
+const DIR_SHORT = {
+  GER:"Gerencia", MED:"Médica", RES:"Residentes", PGRE:"Plan. y Rec. Económicos",
+  IIT:"Ingeniería", SSGG:"Serv. Generales", RRHH:"RRHH"
+};
+/* Paleta institucional según leyenda de colores por dirección del CHUC */
+const DIR_COLORS = {
+  GER:"#E8A33D",   // Gerencia — ámbar
+  MED:"#F4C20D",   // Médica — amarillo
+  RES:"#C98A2E",   // Médica (Residentes) — dorado oscuro, ligado a Médica
+  PGRE:"#4A6378",  // Planificación y Gestión de RR.EE — pizarra
+  IIT:"#3296D2",   // Ingeniería, Infraestructuras y Tecnologías — azul
+  SSGG:"#5BB8E8",  // Servicios Generales — celeste
+  RRHH:"#2E9E5B"   // Recursos Humanos — verde
+};
+
+let activeDir = "ALL";
+let searchTerm = "";
+let modFilter = "";
+let expandedDirs = new Set(); // todas cerradas por defecto
+
+function fmtHoras(h){
+  return (h % 1 === 0) ? h.toString() : h.toString().replace('.', ',');
+}
+
+function buildStats(){
+  const totalCursos = courses.length;
+  const totalHoras = courses.reduce((s,c)=>s+c.horas,0);
+  const totalPlazas = courses.reduce((s,c)=>s+c.plazas,0);
+  const totalDirs = DIR_ORDER.length;
+  const stats = [
+    {num: totalCursos, label:"Actividades formativas"},
+    {num: Math.round(totalHoras).toLocaleString('es-ES'), label:"Horas de formación programadas"},
+    {num: totalPlazas.toLocaleString('es-ES'), label:"Plazas ofertadas"},
+    {num: totalDirs, label:"Direcciones / servicios participantes"},
+  ];
+  document.getElementById('statGrid').innerHTML = stats.map(s=>`
+    <div class="stat-card">
+      <div class="num">${s.num}</div>
+      <div class="label">${s.label}</div>
+    </div>`).join('');
+}
+
+function buildDistro(){
+  const total = courses.length;
+  document.getElementById('distroTotal').textContent = `${total} actividades en total`;
+  const bar = document.getElementById('distroBar');
+  const legend = document.getElementById('distroLegend');
+  bar.innerHTML = '';
+  legend.innerHTML = '';
+  DIR_ORDER.forEach(d=>{
+    const n = courses.filter(c=>c.dir===d).length;
+    const pct = (n/total*100).toFixed(1);
+    const seg = document.createElement('div');
+    seg.style.width = pct + '%';
+    seg.style.background = DIR_COLORS[d];
+    seg.title = `${DIR_LABELS[d]}: ${n} cursos`;
+    bar.appendChild(seg);
+    const item = document.createElement('div');
+    item.className='item';
+    item.innerHTML = `<span class="dot" style="background:${DIR_COLORS[d]}"></span> ${DIR_SHORT[d]} <b>${n}</b>`;
+    legend.appendChild(item);
+  });
+}
+
+function buildTabs(){
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML = '';
+  const allBtn = tabEl("ALL", "Todas", courses.length);
+  tabs.appendChild(allBtn);
+  DIR_ORDER.forEach(d=>{
+    const n = courses.filter(c=>c.dir===d).length;
+    tabs.appendChild(tabEl(d, DIR_SHORT[d], n));
+  });
+}
+function tabEl(key,label,count){
+  const b = document.createElement('button');
+  b.className = 'tab' + (key===activeDir?' active':'');
+  b.innerHTML = `${label} <span class="count">${count}</span>`;
+  b.onclick = ()=>{ activeDir = key; render(); };
+  b.dataset.key = key;
+  return b;
+}
+
+function matches(c){
+  if(activeDir!=="ALL" && c.dir!==activeDir) return false;
+  if(modFilter && c.modalidad!==modFilter) return false;
+  if(searchTerm){
+    const t = (c.title+' '+c.code).toLowerCase();
+    if(!t.includes(searchTerm.toLowerCase())) return false;
+  }
+  return true;
+}
+
+function modPillClass(m){
+  if(m==='Online') return 'mod-online';
+  if(m==='Mixto') return 'mod-mixto';
+  return 'mod-presencial';
+}
+
+function cardHTML(c){
+  return `
+    <div class="card" style="--dircolor:${DIR_COLORS[c.dir]}">
+      <div class="code mono">${c.code}</div>
+      <h3>${c.title}</h3>
+      <div class="meta">
+        <span class="pill horas">⏱ ${fmtHoras(c.horas)} h</span>
+        <span class="pill plazas">👥 ${c.plazas} plazas</span>
+        <span class="pill ${modPillClass(c.modalidad)}">${c.modalidad}</span>
+      </div>
+    </div>`;
+}
+
+function chevronSVG(){
+  return `<svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>`;
+}
+
+function toggleDir(d){
+  if(expandedDirs.has(d)) expandedDirs.delete(d);
+  else expandedDirs.add(d);
+  render();
+}
+
+function render(){
+  // tabs active state
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.classList.toggle('active', t.dataset.key===activeDir);
+  });
+
+  const filtered = courses.filter(matches);
+  const main = document.getElementById('main');
+  const toggleAllBtn = document.getElementById('toggleAllBtn');
+
+  if(filtered.length===0){
+    main.innerHTML = `<div class="empty"><b>Sin resultados</b>Prueba con otro término de búsqueda o cambia de dirección.</div>`;
+    toggleAllBtn.style.display = 'none';
+    return;
+  }
+
+  const groupKeys = activeDir==="ALL" ? DIR_ORDER.filter(d=>filtered.some(c=>c.dir===d)) : [activeDir];
+
+  if(activeDir==="ALL" && groupKeys.length>1){
+    toggleAllBtn.style.display = '';
+    const allOpen = groupKeys.every(d=>expandedDirs.has(d));
+    toggleAllBtn.textContent = allOpen ? 'Colapsar todas' : 'Expandir todas';
+  } else {
+    toggleAllBtn.style.display = 'none';
+  }
+
+  // vista de una sola dirección (pestaña concreta): grid directo, sin acordeón
+  if(activeDir!=="ALL"){
+    const d = activeDir;
+    const items = filtered;
+    main.innerHTML = `
+      <div class="dirheading" style="display:flex;align-items:baseline;gap:10px;margin:6px 0 16px;">
+        <h2 style="font-size:19px;margin:0;color:var(--navy);">${DIR_LABELS[d]}</h2>
+        <span style="font-size:13px;color:var(--text-muted);">${items.length} actividad${items.length===1?'':'es'}</span>
+      </div>
+      <div class="grid">${items.map(cardHTML).join('')}</div>
+    `;
+    return;
+  }
+
+  // vista "Todas": acordeón por dirección
+  main.innerHTML = groupKeys.map(d=>{
+    const items = filtered.filter(c=>c.dir===d);
+    const isOpen = expandedDirs.has(d);
+    return `
+      <div class="accordion-item ${isOpen?'open':''}" data-dir="${d}">
+        <button class="accordion-head" style="--dircolor:${DIR_COLORS[d]}" data-toggle="${d}">
+          <div class="left">
+            <h2>${DIR_LABELS[d]}</h2>
+            <span class="n">${items.length} actividad${items.length===1?'':'es'}</span>
+          </div>
+          ${chevronSVG()}
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <div class="grid">${items.map(cardHTML).join('')}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // set max-height for open panels + wire click handlers
+  main.querySelectorAll('.accordion-item').forEach(item=>{
+    const d = item.dataset.dir;
+    const body = item.querySelector('.accordion-body');
+    if(expandedDirs.has(d)){
+      body.style.maxHeight = body.scrollHeight + 'px';
+    } else {
+      body.style.maxHeight = '0px';
+    }
+    item.querySelector('.accordion-head').addEventListener('click', ()=> toggleDir(d));
+  });
+}
+
+document.getElementById('searchInput').addEventListener('input', e=>{
+  searchTerm = e.target.value;
+  render();
+});
+document.getElementById('modFilter').addEventListener('change', e=>{
+  modFilter = e.target.value;
+  render();
+});
+document.getElementById('toggleAllBtn').addEventListener('click', ()=>{
+  const filtered = courses.filter(matches);
+  const groupKeys = DIR_ORDER.filter(d=>filtered.some(c=>c.dir===d));
+  const allOpen = groupKeys.every(d=>expandedDirs.has(d));
+  if(allOpen){ groupKeys.forEach(d=>expandedDirs.delete(d)); }
+  else { groupKeys.forEach(d=>expandedDirs.add(d)); }
+  render();
+});
+
+buildStats();
+buildDistro();
+buildTabs();
+render();
+
+window.addEventListener('resize', ()=>{
+  document.querySelectorAll('.accordion-item.open .accordion-body').forEach(b=>{
+    b.style.maxHeight = b.scrollHeight + 'px';
+  });
+});
+</script>
+</body>
+</html>
